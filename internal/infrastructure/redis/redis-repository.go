@@ -25,6 +25,10 @@ func NewRedisRepository(addr string) (*RedisRepository, error) {
 	return &RedisRepository{client: client}, nil
 }
 
+func NewRedisRepositoryForTest(client *redis.Client) *RedisRepository {
+	return &RedisRepository{client: client}
+}
+
 func (r *RedisRepository) Save(url *url.URL) error {
 	return r.client.Set(context.Background(), url.ShortCode, url.OriginalURL, 0).Err()
 }

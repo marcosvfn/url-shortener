@@ -5,17 +5,17 @@ import (
 )
 
 type URLService struct {
-	repo url.Repository
+	service *url.Service
 }
 
-func NewURLService(repo url.Repository) *URLService {
-	return &URLService{repo: repo}
+func NewURLService(service *url.Service) *URLService {
+	return &URLService{service: service}
 }
 
 func (s *URLService) ShortenURL(originalURL string) (string, error) {
-	return s.repo.(*url.Service).ShortenURL(originalURL)
+	return s.service.ShortenURL(originalURL)
 }
 
 func (s *URLService) GetOriginalURL(shortCode string) (string, error) {
-	return s.repo.(*url.Service).GetOriginalURL(shortCode)
+	return s.service.GetOriginalURL(shortCode)
 }

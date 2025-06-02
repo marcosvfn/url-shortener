@@ -5,7 +5,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/marcosvfn/url-shortener/internal/infrastructure/http"
+	"github.com/marcosvfn/url-shortener/internal/domain/url"
+	infrahttp "github.com/marcosvfn/url-shortener/internal/infrastructure/http"
 	"github.com/marcosvfn/url-shortener/internal/infrastructure/redis"
 	"github.com/marcosvfn/url-shortener/internal/usecases"
 )
@@ -16,8 +17,8 @@ func main() {
 		log.Fatal("Failed to connect to Redis:", err)
 	}
 
-	urlService := usecases.NewURLService(redisRepo)
-	handler := http.NewURLHandler(urlService)
+	urlService := url.NewService(redisRepo)
+	handler := infrahttp.NewURLHandler(usecases.NewURLService(urlService))
 
 	router := mux.NewRouter()
 	router.HandleFunc("/shorten", handler.ShortenURL).Methods("POST")
